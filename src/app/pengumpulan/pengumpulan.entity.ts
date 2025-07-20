@@ -24,11 +24,9 @@ export class Pengumpulan extends BaseEntity {
   @JoinColumn({ name: 'created_by' })
   created_by: Admins;
 
-  @ManyToMany(() => Tugas, (classEntity) => classEntity.submites, {
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
-  tugas: Tugas;
+  @ManyToOne(() => Tugas)
+  @JoinColumn({ name: 'tugas_by' })
+  tugas_by: Tugas;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

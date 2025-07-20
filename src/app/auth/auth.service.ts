@@ -36,10 +36,17 @@ export class AuthService extends BaseResponse {
         username: payload.username,
       },
     });
+
     if (checkGuruExists) {
       throw new HttpException('User already registered', HttpStatus.FOUND);
     }
+
     payload.password = await hash(payload.password, 12);
+
+    if (!payload.avatar) {
+      payload.avatar = 'https://example.com/default-avatar.png';
+    }
+
     const reg = await this.adminsRepository.save(payload);
 
     return this._success('Register Berhasil', reg);

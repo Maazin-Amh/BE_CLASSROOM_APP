@@ -35,8 +35,8 @@ export class Tugas extends BaseEntity {
   @JoinColumn({ name: 'class_by' })
   class_by: Class;
 
-  @ManyToMany(() => Pengumpulan, (tugas) => tugas.tugas)
-  submites: Pengumpulan[];
+  @OneToMany(() => Pengumpulan, (v) => v.tugas_by)
+  submites: Pengumpulan;
 
   @ManyToOne(() => Admins)
   @JoinColumn({ name: 'updated_by' })

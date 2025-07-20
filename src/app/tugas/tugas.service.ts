@@ -60,7 +60,12 @@ export class TugasService extends BaseResponse {
       where: {
         id: id,
       },
-      relations: ['created_by', 'updated_by', 'submites'],
+      relations: [
+        'created_by',
+        'updated_by',
+        'submites',
+        'submites.created_by',
+      ],
     });
 
     if (check === null) {
@@ -88,7 +93,13 @@ export class TugasService extends BaseResponse {
 
     const result = await this.tugasRepository.find({
       where: filterQuery,
-      relations: ['created_by', 'updated_by', 'class_by', 'submites'],
+      relations: [
+        'created_by',
+        'updated_by',
+        'class_by',
+        'submites',
+        'submites.created_by',
+      ],
       select: {
         id: true,
         judul: true,
@@ -109,6 +120,10 @@ export class TugasService extends BaseResponse {
         submites: {
           id: true,
           files: true,
+          created_by: {
+            id: true,
+            nama: true,
+          },
         },
       },
       skip: limit,

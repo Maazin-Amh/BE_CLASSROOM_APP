@@ -34,7 +34,7 @@ export class PengumpulanService extends BaseResponse {
 
       const newSubmission = await this.pengumpulanRepository.save({
         ...payload,
-        tugas: tugas,
+        tugas_by: tugas,
       });
 
       return this._success('Assignment submitted successfully', newSubmission);
@@ -46,6 +46,7 @@ export class PengumpulanService extends BaseResponse {
       );
     }
   }
+
   async getAllSubmit(query: findAllSubmit): Promise<ResponsePagination> {
     const { page, pageSize, limit, files } = query;
 
@@ -60,7 +61,7 @@ export class PengumpulanService extends BaseResponse {
 
     const result = await this.pengumpulanRepository.find({
       where: filterQuery,
-      relations: ['created_by', 'tugas'],
+      relations: ['created_by', 'tugas_by'],
       select: {
         id: true,
         files: true,
@@ -68,7 +69,7 @@ export class PengumpulanService extends BaseResponse {
           id: true,
           nama: true,
         },
-        tugas: {
+        tugas_by: {
           id: true,
           judul: true,
         },

@@ -43,6 +43,7 @@ export class RegisterDto extends PickType(ALlDto, [
   'password',
   'username',
   'role',
+  'avatar',
 ]) {}
 
 export class LoginDto extends PickType(ALlDto, [
