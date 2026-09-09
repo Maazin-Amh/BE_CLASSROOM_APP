@@ -1,6 +1,4 @@
-import path from 'path';
-
-process.env.NODE_PATH = path.join(process.cwd(), 'src');
+import './register-alias';
 
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
