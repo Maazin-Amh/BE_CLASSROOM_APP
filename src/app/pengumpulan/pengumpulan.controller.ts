@@ -3,7 +3,7 @@ import { PengumpulanService } from './pengumpulan.service';
 import { JwtGuard } from '../auth/auth.guard';
 import { InjectCreatedBy } from '../../utils/decorator/inject-created_by.decorator';
 import { SubmitDto, findAllSubmit } from './pengumpulan.dto';
-import { Pagination } from 'src/utils/decorator/pagination.decorator';
+import { Pagination } from '../../utils/decorator/pagination.decorator';
 
 @Controller('pengumpulan')
 export class PengumpulanController {
