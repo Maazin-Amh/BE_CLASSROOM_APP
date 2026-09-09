@@ -1,4 +1,6 @@
-import 'tsconfig-paths/register';
+import path from 'path';
+
+process.env.NODE_PATH = path.join(process.cwd(), 'src');
 
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
