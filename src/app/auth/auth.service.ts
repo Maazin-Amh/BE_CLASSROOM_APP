@@ -9,7 +9,7 @@ import BaseResponse from '../../utils/response/base.response';
 import { LoginDto, RegisterDto, ResetPasswordDto } from './auth.dto';
 import { ResponseSuccess } from 'src/interface';
 import { JwtService } from '@nestjs/jwt';
-import { jwt_config } from 'src/config/jwt.config';
+import { jwt_config } from '../../config/jwt.config';
 import { Repository } from 'typeorm';
 import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcrypt';
