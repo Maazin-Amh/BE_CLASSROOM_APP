@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import BaseResponse from 'src/utils/response/base.response';
+import BaseResponse from '../../utils/response/base.response';
 import { LoginDto, RegisterDto, ResetPasswordDto } from './auth.dto';
 import { ResponseSuccess } from 'src/interface';
 import { JwtService } from '@nestjs/jwt';

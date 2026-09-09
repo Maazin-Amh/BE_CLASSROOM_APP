@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import BaseResponse from 'src/utils/response/base.response';
+import BaseResponse from '../../utils/response/base.response';
 import { Tugas } from '../tugas/tugas.entity';
 import { Like, Repository } from 'typeorm';
 import { ResponsePagination, ResponseSuccess } from 'src/interface';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import BaseResponse from 'src/utils/response/base.response';
+import BaseResponse from '../../utils/response/base.response';
 import { Admins } from '../auth/auth.entity';
 import { ResponseSuccess } from 'src/interface/response.interface';
 import { Repository } from 'typeorm';

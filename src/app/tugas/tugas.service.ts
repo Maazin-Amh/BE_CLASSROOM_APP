@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import BaseResponse from 'src/utils/response/base.response';
+import BaseResponse from '../../utils/response/base.response';
 import { Tugas } from './tugas.entity';
 import { ResponsePagination, ResponseSuccess } from 'src/interface';
 import { REQUEST } from '@nestjs/core';
