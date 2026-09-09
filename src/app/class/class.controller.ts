@@ -13,9 +13,9 @@ import {
 } from '@nestjs/common';
 import { ClassService } from './class.service';
 import { CreateclassDto, UpdateClassDto, findAllkelasDto } from './class.dto';
-import { InjectCreatedBy } from 'src/utils/decorator/inject-created_by.decorator';
+import { InjectCreatedBy } from '../../utils/decorator/inject-created_by.decorator';
 import { JwtGuard } from '../auth/auth.guard';
-import { InjectUpdatedBy } from 'src/utils/decorator/inject-update_by.decorator';
+import { InjectUpdatedBy } from '../../utils/decorator/inject-update_by.decorator';
 
 @Controller('class')
 export class ClassController {

@@ -7,7 +7,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { PageRequestDto } from 'src/utils/dto/page.dto';
+import { PageRequestDto } from '../../utils/dto/page.dto';
 
 export class ClassDto {
   @IsInt()

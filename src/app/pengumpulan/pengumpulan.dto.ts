@@ -2,7 +2,7 @@
 
 import { PickType } from '@nestjs/mapped-types';
 import { IsInt, IsObject, IsOptional, IsString } from 'class-validator';
-import { PageRequestDto } from 'src/utils/dto/page.dto';
+import { PageRequestDto } from '../../utils/dto/page.dto';
 
 export class PenugmpulanDto {
   @IsInt()
