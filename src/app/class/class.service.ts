@@ -9,7 +9,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { Class } from './class.entity';
-import { ResponsePagination, ResponseSuccess } from 'src/interface';
+import { ResponsePagination, ResponseSuccess } from '../../interface';
 import { CreateclassDto, UpdateClassDto, findAllkelasDto } from './class.dto';
 import BaseResponse from '../../utils/response/base.response';
 import { REQUEST } from '@nestjs/core';

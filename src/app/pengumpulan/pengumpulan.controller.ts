@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { PengumpulanService } from './pengumpulan.service';
 import { JwtGuard } from '../auth/auth.guard';
-import { InjectCreatedBy } from 'src/utils/decorator/inject-created_by.decorator';
+import { InjectCreatedBy } from '../../utils/decorator/inject-created_by.decorator';
 import { SubmitDto, findAllSubmit } from './pengumpulan.dto';
 import { Pagination } from 'src/utils/decorator/pagination.decorator';
 

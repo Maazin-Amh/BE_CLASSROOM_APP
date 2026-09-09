@@ -10,9 +10,9 @@ import {
 import { TugasService } from './tugas.service';
 import { CreateTugasDto, UpdateTugasDto, findAllTugas } from './tugas.dto';
 import { JwtGuard } from '../auth/auth.guard';
-import { InjectCreatedBy } from 'src/utils/decorator/inject-created_by.decorator';
-import { Pagination } from 'src/utils/decorator/pagination.decorator';
-import { InjectUpdatedBy } from 'src/utils/decorator/inject-update_by.decorator';
+import { InjectCreatedBy } from '../../utils/decorator/inject-created_by.decorator';
+import { Pagination } from '../../utils/decorator/pagination.decorator';
+import { InjectUpdatedBy } from '../../utils/decorator/inject-update_by.decorator';
 
 @Controller('tugas')
 export class TugasController {

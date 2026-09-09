@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ResponseSuccess } from 'src/interface/response.interface';
+import { ResponseSuccess } from '../../interface/response.interface';
 import BaseResponse from '../../utils/response/base.response';
 import { JwtGuard } from '../auth/auth.guard';
 import * as fs from 'fs';

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import BaseResponse from '../../utils/response/base.response';
 import { Admins } from '../auth/auth.entity';
-import { ResponseSuccess } from 'src/interface/response.interface';
+import { ResponseSuccess } from '../../interface/response.interface';
 import { Repository } from 'typeorm';
 import { UpdateProfileDto } from './profile.dto';
 

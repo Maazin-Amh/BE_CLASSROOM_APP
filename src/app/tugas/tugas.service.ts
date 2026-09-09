@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import BaseResponse from '../../utils/response/base.response';
 import { Tugas } from './tugas.entity';
-import { ResponsePagination, ResponseSuccess } from 'src/interface';
+import { ResponsePagination, ResponseSuccess } from '../../interface';
 import { REQUEST } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import BaseResponse from '../../utils/response/base.response';
 import { Tugas } from '../tugas/tugas.entity';
 import { Like, Repository } from 'typeorm';
-import { ResponsePagination, ResponseSuccess } from 'src/interface';
+import { ResponsePagination, ResponseSuccess } from '../../interface';
 import { Pengumpulan } from './pengumpulan.entity';
 import { SubmitDto, findAllSubmit } from './pengumpulan.dto';
 
