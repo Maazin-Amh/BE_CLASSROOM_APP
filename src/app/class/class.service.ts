@@ -11,7 +11,7 @@ import { Like, Repository } from 'typeorm';
 import { Class } from './class.entity';
 import { ResponsePagination, ResponseSuccess } from 'src/interface';
 import { CreateclassDto, UpdateClassDto, findAllkelasDto } from './class.dto';
-import BaseResponse from 'src/utils/response/base.response';
+import BaseResponse from '../../utils/response/base.response';
 import { REQUEST } from '@nestjs/core';
 import { Admins } from '../auth/auth.entity';
 
