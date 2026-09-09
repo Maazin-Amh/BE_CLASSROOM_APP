@@ -5,17 +5,17 @@ import { AppModule } from '../src/app.module';
 
 const server = express();
 
-let isInitialized = false;
+let initialized = false;
 
 async function bootstrap() {
-  if (!isInitialized) {
+  if (!initialized) {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
     app.enableCors();
 
     await app.init();
 
-    isInitialized = true;
+    initialized = true;
   }
 
   return server;
@@ -26,5 +26,6 @@ export default async function handler(
   res: express.Response,
 ) {
   const app = await bootstrap();
+
   return app(req, res);
 }
