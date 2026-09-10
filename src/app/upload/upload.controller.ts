@@ -7,17 +7,26 @@ import {
   Post,
   UploadedFile,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import {
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
+
 import { ResponseSuccess } from '../../interface/response.interface';
 import BaseResponse from '../../utils/response/base.response';
-import { JwtGuard } from '../auth/auth.guard';
-import * as fs from 'fs';
 import { UploadValidationService } from './upload-validation.service';
 import { UploadValidationArrayService } from './upload-validation-array.service';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 @Controller('upload')
 export class UploadController extends BaseResponse {
@@ -25,17 +34,34 @@ export class UploadController extends BaseResponse {
     super();
   }
 
+  private uploadToCloudinary(
+    file: Express.Multer.File,
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'classroom',
+          resource_type: 'auto',
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        },
+      );
+
+      Readable.from(file.buffer).pipe(uploadStream);
+    });
+  }
+
   @UseInterceptors(
     FileInterceptor('file', {
-      // fileFilter: UploadValidationService.UploadFilter,
-      limits: { fileSize: 2 * 1024 * 1024 },
-      storage: diskStorage({
-        destination: 'public/uploads',
-        filename: (req, file, cb) => {
-          const fileExtension = file.originalname.split('.').pop();
-          cb(null, `${new Date().getTime()}.${fileExtension}`);
-        },
-      }),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
+      storage: memoryStorage(),
     }),
   )
   @Post('file')
@@ -43,29 +69,39 @@ export class UploadController extends BaseResponse {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ResponseSuccess> {
     try {
-      const url = `https://be-classroom-app.vercel.app/upload/${file.filename}`;
+      if (!file) {
+        throw new HttpException(
+          'File tidak ditemukan',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const result = await this.uploadToCloudinary(file);
+
       return this._success('OK', {
-        file_url: url,
-        file_name: file.filename,
+        file_url: result.secure_url,
+        file_name: result.public_id,
         file_size: file.size,
         file_type: file.mimetype,
       });
     } catch (err) {
-      throw new HttpException('Ada Kesalahan', HttpStatus.BAD_REQUEST);
+      console.error('UPLOAD ERROR:', err);
+
+      throw new HttpException(
+        'Gagal upload file',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
   @UseInterceptors(
     FilesInterceptor('files', 20, {
-      fileFilter: UploadValidationArrayService.imageOrPdfFileFilter,
-      limits: { fileSize: 2 * 1024 * 1024 },
-      storage: diskStorage({
-        destination: 'public/uploads',
-        filename: (req, file, cb) => {
-          const fileExtension = file.originalname.split('.').pop();
-          cb(null, `${new Date().getTime()}.${fileExtension}`);
-        },
-      }),
+      fileFilter:
+        UploadValidationArrayService.imageOrPdfFileFilter,
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
+      storage: memoryStorage(),
     }),
   )
   @Post('files')
@@ -73,26 +109,39 @@ export class UploadController extends BaseResponse {
     @UploadedFiles() files: Express.Multer.File[],
   ): Promise<ResponseSuccess> {
     try {
+      if (!files || files.length === 0) {
+        throw new HttpException(
+          'File tidak ditemukan',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const file_response: Array<{
         file_url: string;
         file_name: string;
         file_size: number;
       }> = [];
 
-      files.forEach((file) => {
-        const url = `https://be-classroom-app.vercel.app/uploads/${file.filename}`;
+      for (const file of files) {
+        const result = await this.uploadToCloudinary(file);
+
         file_response.push({
-          file_url: url,
-          file_name: file.filename,
+          file_url: result.secure_url,
+          file_name: result.public_id,
           file_size: file.size,
         });
-      });
+      }
 
       return this._success('OK', {
         file: file_response,
       });
     } catch (err) {
-      throw new HttpException('Ada Kesalahan', HttpStatus.BAD_REQUEST);
+      console.error('UPLOAD MULTI ERROR:', err);
+
+      throw new HttpException(
+        'Gagal upload file',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -101,11 +150,18 @@ export class UploadController extends BaseResponse {
     @Param('filename') filename: string,
   ): Promise<ResponseSuccess> {
     try {
-      const filePath = `public/uploads/${filename}`;
-      fs.unlinkSync(filePath);
+      await cloudinary.uploader.destroy(filename, {
+        resource_type: 'image',
+      });
+
       return this._success('Berhasil menghapus File');
     } catch (err) {
-      throw new HttpException('File not Found', HttpStatus.NOT_FOUND);
+      console.error('DELETE ERROR:', err);
+
+      throw new HttpException(
+        'Gagal menghapus file',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
