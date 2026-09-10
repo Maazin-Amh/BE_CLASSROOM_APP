@@ -43,7 +43,7 @@ export class UploadController extends BaseResponse {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ResponseSuccess> {
     try {
-      const url = `https://be-classroom-app.vercel.app/uploads/${file.filename}`;
+      const url = `https://be-classroom-app.vercel.app/upload/${file.filename}`;
       return this._success('OK', {
         file_url: url,
         file_name: file.filename,
@@ -80,7 +80,7 @@ export class UploadController extends BaseResponse {
       }> = [];
 
       files.forEach((file) => {
-        const url = `https://be-classroom-app.vercel.app//uploads/${file.filename}`;
+        const url = `https://be-classroom-app.vercel.app/uploads/${file.filename}`;
         file_response.push({
           file_url: url,
           file_name: file.filename,
