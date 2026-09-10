@@ -59,7 +59,7 @@ export class UploadController extends BaseResponse {
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {
-        fileSize: 2 * 1024 * 1024,
+        fileSize: 10 * 1024 * 1024,
       },
       storage: memoryStorage(),
     }),
@@ -99,7 +99,7 @@ export class UploadController extends BaseResponse {
       fileFilter:
         UploadValidationArrayService.imageOrPdfFileFilter,
       limits: {
-        fileSize: 2 * 1024 * 1024,
+        fileSize: 10 * 1024 * 1024,
       },
       storage: memoryStorage(),
     }),
