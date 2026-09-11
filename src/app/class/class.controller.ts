@@ -52,6 +52,12 @@ export class ClassController {
     return this.classService.getDetail(Number(id));
   }
 
+  @Delete('keluar/:id')
+  @UseGuards(JwtGuard)
+  async leaveClass(@Param('id') id: string) {
+    return this.classService.keluarClass(Number(id));
+  }
+
   @Post('join')
   @UseGuards(JwtGuard)
   async joinClass(@Body('code') code: string) {

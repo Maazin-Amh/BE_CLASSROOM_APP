@@ -99,6 +99,37 @@ export class ClassService extends BaseResponse {
     }
   }
 
+  async keluarClass(id: number): Promise<ResponseSuccess> {
+  const foundClass = await this.classRepository.findOne({
+    where: {
+      id: id,
+    },
+    relations: ['join_by'],
+  });
+
+  if (!foundClass) {
+    throw new NotFoundException(`Kelas dengan id ${id} tidak di temukan`);
+  }
+
+  const studentId = this.req.user.id;
+
+  const isJoined = foundClass.join_by.some(
+    (student) => student.id === studentId,
+  );
+
+  if (!isJoined) {
+    throw new NotFoundException('Siswa tidak terdaftar di kelas ini');
+  }
+
+  foundClass.join_by = foundClass.join_by.filter(
+    (student) => student.id !== studentId,
+  );
+
+  await this.classRepository.save(foundClass);
+
+  return this._success('Berhasil keluar dari kelas', foundClass);
+}
+
   async getDetail(id: number): Promise<ResponseSuccess> {
     const check = await this.classRepository.findOne({
       where: {
