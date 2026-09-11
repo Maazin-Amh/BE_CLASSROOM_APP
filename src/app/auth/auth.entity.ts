@@ -14,8 +14,6 @@ import { ResetPassword } from '../mail/reset_password.entity';
 export enum UserRole {
   Guru = 'guru',
   Siswa = 'siswa',
-  Dosen = 'dosen',
-  Mahasiswa = 'mahasiswa',
 }
 
 @Entity()
